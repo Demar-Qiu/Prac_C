@@ -81,7 +81,7 @@ int main_0()
 
 
 //调试以下代码（会陷入死循环）why? and how to modify?
-int main()              
+int main_2()              
 {
 	int i=0;
 	int tem[] = { 1,2,3,4,5,6,7,8,9,10 };
@@ -106,3 +106,27 @@ int main()
 //	}                               // 不会死循环，但不建议这样
 //	return 0;
 //}
+
+void fit(char*, unsigned int);
+int main()
+{
+	char mesg[] = "Things should be as simple as possible,"
+		" but not simpler.";
+	puts(mesg);
+	fit(mesg, 38);    // 把第39个元素（逗号）替换成'\0'字符
+	puts(mesg);     // puts输出字符串会在空字符时停止
+	puts("Let's look at some more of the string.");   
+	puts(mesg + 39);   // 从第40个字符（空格）开始输出
+
+	return 0;
+}
+
+/* 编写缩短字符串长度的函数 */
+void fit(char* string, unsigned int size)
+{
+	if (strlen(string) > size)
+		string[size] = '\0';
+}
+
+
+
