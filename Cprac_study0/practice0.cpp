@@ -6,6 +6,7 @@
 #include<string.h>
 #include<Windows.h>
 #include<time.h>
+#include<assert.h>
 
 /* 冒泡排序法 */
 #define SIZE 10      //从大到小比较十个成绩
@@ -73,7 +74,6 @@ int main_b()
 
 	return 0;
 }
-
 
 
 /* 求两数的最大公约数 */
@@ -204,6 +204,37 @@ int main_g()
 	
 	return 0;
 }
+
+/* 实现逆序输出字符串 */
+
+void reverse(char *str)
+{
+	assert(str);
+	int len = strlen(str);
+	char* left = str;
+	char* right = str + len - 1; 
+	while (left<right)
+	{
+		char temp=*left;
+		*left = *right;
+		*right = temp;
+		left++;
+		right--;
+	}
+}
+
+int main_u()
+{
+	char nixu[256] = { 0 };
+	printf("输入字符串：");
+	//scanf("%s", nixu);   
+	gets_s(nixu);   //读取一行
+	reverse(nixu); 
+	printf("逆序后：%s\n", nixu);      
+	return 0;
+}
+
+
 
 /* 打印九九乘法表 */
 int main_h()
