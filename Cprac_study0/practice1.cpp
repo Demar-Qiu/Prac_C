@@ -2,6 +2,7 @@
 
 #include<stdio.h>
 #include<string.h>
+#include<math.h>
 
 /* strcpy函数的使用 */          // strcpy(a[], *b) 将第二个参数指向的字符串拷贝到第一个参数指向的数组中
 #define WORDS "beast"
@@ -21,7 +22,6 @@ int main_1()
 
 	return 0;
 }
-
 
 /* 实现strcpy库函数的功能 */      // strcpy(a[], *b) 将第二个参数指向的字符串拷贝到第一个参数指向的数组中
 void my_strcpy(char* dest,char* src)       // 代码一般 得6分
@@ -108,7 +108,7 @@ int main_2()
 //}
 
 void fit(char*, unsigned int);
-int main()
+int main_3()
 {
 	char mesg[] = "Things should be as simple as possible,"
 		" but not simpler.";
@@ -129,4 +129,91 @@ void fit(char* string, unsigned int size)
 }
 
 
+/* 打印0—100000之间的所有 水仙花数 */
+int main_4()
+{
+	int i = 0;
+	for (i = 0; i <= 100000; i++)
+	{
+		//计算i的位数---n位数
+		int n = 1;
+		int sum = 0;
+		int amp = i;   //需要一个amp来接收i，直接用i会改变值 
+		while (amp/=10)
+		{
+			n++;
+		}
+		// 计算i的每一位的n次方之和 sum
+		amp = i;
+		while (amp)
+		{
+			sum += pow(amp % 10, n);
+			amp /= 10;
+		}
+		if (i == sum)
+		{
+			printf("%d ", i);
+		}
+	}
+	return 0;
+}
 
+/* 打印星号组成的菱形 */
+int main_5()
+{
+	int line = 0;
+	scanf("%d",&line); //7   首行到中间最长行共有多少行（上半部分）
+	// 打印上半部分 
+	int i = 0;
+	for (i = 0; i < line; i++)
+	{
+		// 打印空格
+		int j = 0;
+		for (j = 0; j < line - 1 - i; j++)
+		{
+			printf(" ");
+		}
+		//打印*
+		for (j = 0; j < 2*i+1; j++)
+		{
+			printf("*");
+		}
+		printf("\n");
+	}
+	//打印下半部分
+	for (i = 0; i < line - 1; i++)
+	{
+		int j = 0;
+		//打印空格
+		for (j = 0; j <=i; j++)
+			printf(" ");
+		//打印*
+		for (j = 0; j <2*(line-1-i)-1 ; j++)
+		{
+			printf("*");
+		}
+		printf("\n");
+	}
+	return 0;
+}
+
+/* 喝汽水，1瓶汽水1元，2个空瓶可换一瓶汽水，给20元能买到多少瓶汽水 */
+
+int main()
+{
+	int money = 0;
+	int total = 0;
+	int empty = 0;
+	scanf("%d", &money);
+	// 买回来的汽水喝掉
+	total = money;
+	empty = money;
+	// 换回来的汽水
+	while (empty >= 2)
+	{
+		total += empty / 2;
+		empty = empty / 2 + empty % 2;
+	}
+	printf("total:%d\n", total);
+	return 0;
+}
