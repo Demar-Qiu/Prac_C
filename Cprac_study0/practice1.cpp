@@ -17,7 +17,7 @@ int main_1()
 	puts(orig);
 	puts(copy);
 	ps = strcpy(copy + 7, orig);   //ps指向copy的第8个元素，从此处开始打印，空字符'\0'也拷贝在内
-	puts(copy);                     // orig拷贝到copy第8个元素开始替换，之前的不变
+	puts(copy);                     // orig拷贝到copy第8个元素开始替换，之前的不变,到'\0'停止
 	puts(ps);
 
 	return 0;
@@ -79,6 +79,99 @@ int main_0()
 	return 0;
 }
 
+/* 自定义实现strlen库函数功能 */
+int my_strlen(const char* str)
+{
+	int count = 0;
+	assert(str != NULL);
+	while (*str != '\0')    // *str
+	{
+		count++;
+		str++;
+	}
+	return count;
+}
+
+/* 自定义实现strstr函数功能 */  //查找 字符串p2是否在p1中
+char* my_strstr(const char* p1, const char* p2)
+{
+	assert(p1 != NULL);
+	assert(p2 != NULL);
+	char* s1 =NULL;        //p1中走的指针
+	char* s2 =NULL;        //p2中走的指针
+	char* cur = (char*)p1;  //当前起始指向（控制起始）
+	if (*p2 == '\0')   
+	{
+		return 0;
+	}
+	while (*cur)  //当前指向不为‘\0’
+	{
+		s1 = cur;            //p1中走的指针
+		s2 = (char*)p2;      //p2中走的指针
+		while ((*s1 != '\0') && (*s2 != '\0') && (*s1 == *s2))  //满足这三个条件才能走下一个
+		{
+			s1++;
+			s2++;
+		}
+		if (*s2 == '\0')              
+		{
+			return cur;
+		}
+		cur++;
+	}
+	return NULL;// 找不到字符串
+
+}
+
+int main_9()
+{
+	const char* a0 = "abcdefmhg";
+	const char* a1 = "def";
+	//my_strstr(a0, a1);
+	char* ret = my_strstr(a0, a1);
+	if (ret == NULL)
+		printf("字符串不存在\n");
+	else
+		printf("%s\n",ret );
+	return 0;
+}
+
+/* 自定义实现memcpy函数功能 */   //  函数memcpy从source的位置开始向后复制count个字节的数据到destination的内存位置。
+                                 //在遇到 '\0' 的时候并不会停下来。
+void* my_memcpy(void* dest, const void* src, size_t count)   // 两者类型是任意的
+{
+	assert(dest != NULL);
+	assert(src != NULL);
+	char* ret = (char*)dest;
+	while (count--)
+	{
+		*(char*)dest = *(char*)src;
+		dest=(char*)dest+1;
+		src=(char*)src+1;
+	}
+	return ret;
+}
+
+int main()                             //另外还有一个 memmove函数 
+                                       //和memcpy的差别就是memmove函数处理的源内存块和目标内存块是可以重叠的。
+{
+	int arr1[] = { 1,2,3,4,5 };
+	int arr2[10] = { 0 };
+	// arr1中的数字拷贝到arr2中
+	my_memcpy(arr2, arr1, sizeof(arr1));
+	return 0;
+}
+
+
+//下列代码输出的结果       PS: strlen函数的返回类型是size_t，也就是uint
+int main_6()
+{
+	if (strlen("abc") - strlen("abcdef") > 0)  //无符号数始终大于0
+		printf("HAHA\n");
+	else
+		printf("TOTO\n");
+	return 0;
+}
 
 //调试以下代码（会陷入死循环）why? and how to modify?
 int main_2()              
@@ -199,7 +292,7 @@ int main_5()
 
 /* 喝汽水，1瓶汽水1元，2个空瓶可换一瓶汽水，给20元能买到多少瓶汽水 */
 
-int main()
+int main_7()
 {
 	int money = 0;
 	int total = 0;
@@ -217,3 +310,46 @@ int main()
 	printf("total:%d\n", total);
 	return 0;
 }
+
+/* 实现调整奇数偶数顺序，使奇数都在偶数之前 */
+void move(int am[], int sz)
+{
+	int left = 0;
+	int right = sz - 1;
+
+	while (left<right)
+	{
+		while ((left<right)&& (*(am + left))% 2 == 1)  // 从左边找偶数
+		{
+			left++;
+		}
+		while ((left < right) && (*(am + right)) % 2 == 0)  //从右边找奇数
+		{
+			right--;
+		}
+		if (left < right)
+		{
+			int tem = *(am + left);
+			*(am + left) = *(am + right);
+			*(am + right) = tem;
+		}
+
+	}
+}
+
+int main_8()
+{
+	int am[] = { 1,2,3,4,5,6,7,8,9,10 };
+	// 1 3 5 7 9 9 7 5 3 1
+	int s = sizeof(am) / sizeof(int);
+	int i = 0;
+	move(am, s);
+	for (i = 0; i < s ; i++)
+	{
+		printf("%d ", am[i]);
+	}
+	
+	return 0;
+}
+
+
